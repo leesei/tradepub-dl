@@ -1,0 +1,15 @@
+{
+  "name": "tradepub-dl",
+  "module": "tradepub-dl.ts",
+  "type": "module",
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "async": "^3.2.6",
+    "cheerio": "^1.0.0"
+  }
+}
