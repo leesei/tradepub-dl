@@ -29,7 +29,7 @@ for (let filename of list.split("\n")) {
   const parsed = path.parse(filename);
   const title = parsed.name;
   if (!values.colon) {
-    const book = books.find((book: any) => book.title.startsWith(title));
+    const book = books.find((book: any) => book.title.indexOf(title) != -1);
     if (book) {
       console.log(
         `mkdir "${book.publisher}"; mv "${title}${parsed.ext}" "${book.publisher}/${title}${parsed.ext}"`
@@ -39,7 +39,7 @@ for (let filename of list.split("\n")) {
     }
   } else {
     const title1 = title.replace(" - ", ": ");
-    const book = books.find((book: any) => book.title.startsWith(title1));
+    const book = books.find((book: any) => book.title.indexOf(title1) != -1);
     if (book) {
       console.log(
         `mkdir "${book.publisher}"; mv "${title}${parsed.ext}" "${book.publisher}/${title}${parsed.ext}"`
