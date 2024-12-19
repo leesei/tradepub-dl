@@ -9,6 +9,10 @@ const { values, positionals } = parseArgs({
     from: {
       type: "string",
     },
+    download: {
+      type: "boolean",
+      default: false,
+    },
     limit: {
       type: "string",
       default: "5",
@@ -76,22 +80,20 @@ async function parseHTML(values: any, positionals: string[]): Book[] {
   return books;
 }
 
+const books = await parseHTML(values, positionals);
+
+// console.log(books.length);
+// console.log(JSON.stringify(books));
+Bun.write("books.json", JSON.stringify(books, null, 2));
+
 async function downloadBooks(values: any, books: Book[]) {
   const limit = parseInt(values.limit);
   return eachOfLimit(books, limit, async (book: Book) => {
     console.log("Downloading: " + `${book.publisher}/${book.title}.pdf`);
     await Bun.write(
       `${book.publisher}/${book.title}.pdf`,
-      await fetch(book.url, {}),
+      await fetch(book.url, {})
     );
   });
 }
-
-const books = await parseHTML(values, positionals);
-
-console.log(books.length);
-console.log(JSON.stringify(books));
-
-Bun.write("books.json", JSON.stringify(books, null, 2));
-
-// await downloadBooks(values, books);
+if (values.download) await downloadBooks(values, books);
