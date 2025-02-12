@@ -66,6 +66,9 @@ async function parseHTML(values: any, positionals: string[]): Book[] {
 
       // trim title of "($" till the end
       title = title.replace(/\s*\(\$.+$/, "");
+      // trim title of "(FREE*" at the end
+      title = title.replace(/\s*\(free.+\)$/i, "");
+      title = title.replace(/\//i, " - ");
 
       // console.log(title, date);
       return { title, url, publisher, date } as Book;
@@ -88,8 +91,13 @@ Bun.write("books.json", JSON.stringify(books, null, 2));
 
 async function downloadBooks(values: any, books: Book[]) {
   const limit = parseInt(values.limit);
-  return eachOfLimit(books, limit, async (book: Book) => {
-    console.log("Downloading: " + `${book.publisher}/${book.title}.pdf`);
+  return eachOfLimit(books, limit, async (book: Book, i: int) => {
+    const path = `${book.publisher}/${book.title}.pdf`;
+    if (await Bun.file(path).exists()) {
+      // console.log(`[${i + 1}/${books.length}] Already downloaded: ${path}`);
+      return;
+    }
+    console.log(`[${i}/${books.length}] Downloading: ${path}`);
     await Bun.write(
       `${book.publisher}/${book.title}.pdf`,
       await fetch(book.url, {})
