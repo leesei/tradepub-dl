@@ -10,7 +10,7 @@ To install dependencies:
 bun install
 ```
 
-Get the magic link to your library at TradePub.
+Get the magic link to your library at TradePub's [My Library](https://www.tradepub.com/?pt=myacct&page=history).
 Save the page as HTML, say "My Account.html".
 
 ```bash
@@ -20,6 +20,7 @@ Save the page as HTML, say "My Account.html".
 ./tradepub-dl.ts --from 2024-10-02 My\ Account.html
 
 # add `--download` to actually download the eBooks
+# skip download if file already exists
 ./tradepub-dl.ts --download My\ Account.html
 # download concurrency can be controlled by `--limit` (default 5)
 ./tradepub-dl.ts --limit 1 --download My\ Account.html
@@ -29,11 +30,13 @@ Save the page as HTML, say "My Account.html".
 
 - "Requested" titles with no "OPEN NOW" link will not be downloaded  
   using `.reqcard:not(.client)` as filter
+- Find failed downloads
+  `fd -i -t f -e pdf -S -200k | sort | xargs -d"\n" -n1  file | grep -v "PDF document"`
+  There are caused by outdated link, delete and redownload for latest "My Account.html"
 
 # TODO
 
 - use Puppeteer to visit magic link and create `books.json`
-- detect and skip/resume already downloaded files
 - make title file-system safe  
   replace "/" for \*nix, more for Windows
 
