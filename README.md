@@ -1,6 +1,7 @@
 # `tradepub-dl`
 
-Parse TradePub's library page as structured JSON and download PDF in batch.
+Parse TradePub's library page as structured JSON and download PDF in batch.  
+Refer to [TradePub Clicker](https://greasyfork.org/en/scripts/481648-tradepub-clicker) for TradePub download automation.
 
 # Usage
 
@@ -37,8 +38,7 @@ Save the page as HTML, say "My Account.html".
 # TODO
 
 - use Puppeteer to visit magic link and create `books.json`
-- make title file-system safe  
-  replace "/" for \*nix, more for Windows
+
 
 ---
 

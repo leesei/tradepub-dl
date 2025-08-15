@@ -2,6 +2,9 @@
 import path from "path";
 import { parseArgs } from "util";
 
+// intermediate script to print commands for moving files to their respective publisher directories
+// now integrated into `tradepub-dl.ts`
+
 const { values, positionals } = parseArgs({
   args: Bun.argv,
   options: {
